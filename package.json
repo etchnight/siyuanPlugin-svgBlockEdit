@@ -1,6 +1,6 @@
 {
-  "name": "plugin-sample-vite-svelte",
-  "version": "0.1.12",
+  "name": "siyuan-plugin-svg-block-edit",
+  "version": "0.1.0",
   "type": "module",
   "description": "",
   "repository": "",
@@ -29,5 +29,8 @@
     "vite": "^4.3.7",
     "vite-plugin-static-copy": "^0.15.0",
     "vite-plugin-zip-pack": "^1.0.5"
+  },
+  "dependencies": {
+    "svgedit": "^7.3.1"
   }
 }

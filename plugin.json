@@ -1,26 +1,25 @@
 {
-  "name": "plugin-sample-vite-svelte",
-  "author": "frostime",
-  "url": "https://github.com/siyuan-note/plugin-sample-vite-svelte",
-  "version": "0.1.12",
+  "name": "siyuanPlugin-svgBlockEdit",
+  "author": "dualwind",
+  "url": "https://github.com/etchnight/siyuanPlugin-svgBlockEdit",
+  "version": "0.1.0",
   "minAppVersion": "2.9.0",
-  "backends": ["all"],
-  "frontends": ["all"],
+  "backends": ["windows", "linux", "darwin"],
+  "frontends": ["desktop"],
   "displayName": {
-    "en_US": "Plugin sample with vite and svelte",
-    "zh_CN": "插件样例 vite + svelte 版"
+    "en_US": "svgBlockEdit",
+    "zh_CN": "svg块编辑器"
   },
   "description": {
-    "en_US": "SiYuan plugin sample with vite and svelte",
-    "zh_CN": "使用 vite 和 svelte 开发的思源插件样例"
+    "en_US": "Edit and display SVG image, based on HTML block",
+    "zh_CN": "编辑、显示svg图像，基于html块"
   },
   "readme": {
-    "en_US": "README.md",
-    "zh_CN": "README_zh_CN.md"
+    "en_US": "README_en_US.md",
+    "zh_CN": "README.md"
   },
   "funding": {
     "custom": [
-      "https://afdian.net/a/frostime"
     ]
   }
 }
