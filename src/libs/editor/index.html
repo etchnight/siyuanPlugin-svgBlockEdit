@@ -32,26 +32,29 @@
   import Editor from './Editor.js'
   /* for available options see the file `docs/tutorials/ConfigOptions.md */
   const svgEditor = new Editor(document.getElementById('container'))
-  svgEditor.init()
+  await svgEditor.init()
   //svgEditor.configObj.curPrefs.lang="zh-CN"
-  svgEditor.setConfig({
+  await svgEditor.setConfig({
     allowInitialUserOverride: true,
     extensions: [],
     noDefaultExtensions: false,
-    userExtensions: [/* { pathName: '/packages/react-test/dist/react-test.js' } */]
+    userExtensions: [/* { pathName: '/packages/react-test/dist/react-test.js' } */],
+    noStorageOnLoad: true,
+    lang: "zh-CN"
   })
   // Variable XDOMAIN below is created by Rollup for the Xdomain build (see rollup.config.js)
   /* globals XDOMAIN */
   try { // try clause to avoid js to complain if XDOMAIN undefined
     if (XDOMAIN) {
-      svgEditor.setConfig({
+      await svgEditor.setConfig({
         canvasName: 'xdomain', // Namespace this
         allowedOrigins: ['*']
       })
       console.info('xdomain config activated')
     }
   } catch (error) { /* empty fn */ }
-  loadSvg()
+  //console.log(svgEditor)
+  await loadSvg()
   async function loadSvg() {
     let doc = iframe.parentElement.ownerDocument
     let ele = doc.querySelector(`div[data-node-id='${blockId}'][data-subtype='block']`)
@@ -59,13 +62,34 @@
     if (svgList.length === 0) {
       return;
     }
-    console.log(svgEditor)
     const html = svgList[0].getAttribute("data-content");
+    let tempEle = document.createElement('div')
+    tempEle.innerHTML = html
+    const svgEle = tempEle.querySelector('svg')
+    if (!svgEle) {
+      return
+    }
+    const svgHtml = svgEle.outerHTML
     const { svgCanvas } = svgEditor
-    svgCanvas.clear()
-    await svgEditor.loadSvgString(html)
-    svgEditor.updateCanvas()
+    await svgCanvas.clear()
+    await svgEditor.loadSvgString(svgHtml)
+    //svgEditor.updateCanvas()
   }
+
+  const resizeObserver = new ResizeObserver((entries) => {
+    for (let entry of entries) {
+      const height = entry.contentRect.height;
+      const width = entry.contentRect.width;
+      const container = document.getElementById('container')
+      try {
+        container.style.height = `${height}px`;
+        container.style.width = `${width}px`;
+      } catch (e) {
+        return
+      }
+    }
+  });
+  resizeObserver.observe(iframe);
 </script>
 
 
