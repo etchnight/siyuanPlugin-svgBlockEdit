@@ -47,6 +47,10 @@ export default defineConfig({
                     src: "./src/i18n/**",
                     dest: "./i18n/",
                 },
+                {
+                    src:'./src/libs/editor',
+                    dest:'./libs'
+                }
             ],
         }),
     ],
