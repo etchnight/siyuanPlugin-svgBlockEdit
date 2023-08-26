@@ -69,7 +69,9 @@
     if (!svgEle) {
       return
     }
+    svgEle.id=''
     const svgHtml = svgEle.outerHTML
+    //console.log(svgHtml)
     const { svgCanvas } = svgEditor
     await svgCanvas.clear()
     await svgEditor.loadSvgString(svgHtml)

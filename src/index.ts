@@ -105,14 +105,18 @@ export default class siyuanPluginSvgBlockEdit extends Plugin {
               "iframe"
             ) as HTMLIFrameElement;
             try {
-              const svgcontent =
-                iframe.contentDocument.getElementById("svgcontent");
+              const svgEditor = iframe.contentWindow.svgEditor;
+              const { svgCanvas } = svgEditor;
+              const svgcontent = svgCanvas.svgCanvasToString();
+              //console.log(svgcontent);
+              /*const svgcontent =
+                iframe.contentDocument.getElementById("svgcontent");*/
               //console.log(iframe);
               new SavePanel({
                 target: dialog.element.querySelector("#savePanel"),
                 props: {
                   blockId: blockId,
-                  svgHtml: svgcontent.outerHTML,
+                  svgHtml: svgcontent,
                   dialog: dialog,
                 },
               });

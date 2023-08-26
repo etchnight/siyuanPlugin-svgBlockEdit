@@ -4,7 +4,7 @@
   export let svgHtml: string;
   export let dialog;
   //console.log(blockId);
-  //console.log(svgHtml);
+  console.log(svgHtml);
   function saveSVG() {
     updateBlock("markdown", `<div>${svgHtml}</div>`, blockId);
     closeDialog();
