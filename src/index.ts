@@ -4,7 +4,6 @@ import SavePanel from "@/save.svelte";
 
 export default class siyuanPluginSvgBlockEdit extends Plugin {
   private blockIconEventBindThis = this.blockIconEvent.bind(this);
-
   //private blockId: BlockId;
   async onload() {
     console.log(this.i18n.helloPlugin);
@@ -28,18 +27,21 @@ export default class siyuanPluginSvgBlockEdit extends Plugin {
     if (ele.getAttribute("data-type") !== "NodeHTMLBlock") {
       return;
     }
+    //todo 与index.html中loadSvg()相同👇👇
     const protyleELe = ele.querySelector("protyle-html");
     const html = protyleELe.getAttribute("data-content");
     let tempEle = document.createElement("div");
     tempEle.innerHTML = html;
-    const svgEle = tempEle.querySelector("svg");
-    //console.log(html);
+    let svgEle = tempEle.querySelector("svg");
+    if (!svgEle) {
+      const shadow = protyleELe.shadowRoot;
+      svgEle = shadow.querySelector("svg");
+    }
+    //👆👆
     if (!svgEle && html) {
       return;
     }
-
     const blockId = ele.getAttribute("data-node-id");
-
     const loadEditor = this.loadEditor.bind(this);
     detail.menu.addItem({
       label: this.i18n.editSVG,
@@ -81,9 +83,9 @@ export default class siyuanPluginSvgBlockEdit extends Plugin {
             let dialog = new Dialog({
               title: "svg编辑器",
               transparent: false,
-              width: "420px",
+              width: "380px",
               content: `<div id="savePanel" class="b3-dialog__content"></div>`,
-              height: "200px",
+              height: "180px",
             });
 
             const iframe = this.element.querySelector(

@@ -1,10 +1,16 @@
 <script lang="ts">
   import { updateBlock } from "../../siyuanPlugin-common/siyuan-api";
+  import { onMount } from "svelte";
   export let blockId: string;
   export let svgHtml: string;
   export let dialog;
   //console.log(blockId);
   //console.log(svgHtml);
+  onMount(() => {
+    if (!svgHtml) {
+      closeDialog();
+    }
+  });
   function saveSVG() {
     updateBlock("markdown", `<div>${svgHtml}</div>`, blockId);
     closeDialog();

@@ -58,14 +58,17 @@
   async function loadSvg() {
     let doc = iframe.parentElement.ownerDocument
     let ele = doc.querySelector(`div[data-node-id='${blockId}'][data-subtype='block']`)
-    const svgList = ele.getElementsByTagName("protyle-html");
-    if (svgList.length === 0) {
-      return;
-    }
-    const html = svgList[0].getAttribute("data-content");
+    //与index.ts中blockIconEvent相同👇👇
+    const protyleELe = ele.querySelector("protyle-html");
+    const html = protyleELe.getAttribute("data-content");
     let tempEle = document.createElement('div')
     tempEle.innerHTML = html
-    const svgEle = tempEle.querySelector('svg')
+    let svgEle = tempEle.querySelector('svg')
+    if (!svgEle) {
+      const shadow = protyleELe.shadowRoot;
+      svgEle = shadow.querySelector("svg");
+    }
+    //👆👆
     if (!svgEle) {
       return
     }
