@@ -49,26 +49,6 @@ export default class siyuanPluginSvgBlockEdit extends Plugin {
     });
   }
   private loadEditor(blockId: BlockId) {
-    //console.log(html);
-    //const height = 540;
-    //const width = 700;
-    const content = `<iframe id="siyuanPlugin-svgBlockEdit" src="./plugins/siyuanPlugin-svgBlockEdit/libs/editor/index.html"
-                        targetId='${blockId}'>
-                    </iframe>`;
-    const resizeObserver = new ResizeObserver((entries) => {
-      for (let entry of entries) {
-        //console.log(entry);
-        const height = entry.contentRect.height;
-        const width = entry.contentRect.width;
-        const iframe = document.getElementById("siyuanPlugin-svgBlockEdit");
-        try {
-          iframe.style.height = `${height * 0.9}px`;
-          iframe.style.width = `${width}px`;
-        } catch (e) {
-          return;
-        }
-      }
-    });
     const tab = openTab({
       app: this.app,
       custom: {
@@ -81,16 +61,21 @@ export default class siyuanPluginSvgBlockEdit extends Plugin {
           type: "custom_tab",
           init() {
             const thisElement = this.element as HTMLElement;
-            thisElement.innerHTML = content;
-            resizeObserver.observe(thisElement); //?是否有副作用,resize
-            /*function resize() {
-              console.log("resize");
-              const width = window.getComputedStyle(thisElement).width;
-              const height = window.getComputedStyle(thisElement).height;
-              const iframe = thisElement.querySelector("iframe");
-              iframe.style.height = `${parseInt(height) * 0.9}px`;
-              iframe.style.width = width;
-            }*/
+            thisElement.innerHTML = `<iframe id="siyuanPlugin-svgBlockEdit" src="./plugins/siyuanPlugin-svgBlockEdit/libs/editor/index.html"
+                                        targetId='${blockId}'>
+                                    </iframe>`;
+            const width = window.getComputedStyle(this.element).width;
+            const height = window.getComputedStyle(this.element).height;
+            const iframe = this.element.querySelector("iframe");
+            iframe.style.height = `${parseInt(height) * 0.9}px`;
+            iframe.style.width = width;
+          },
+          resize() {
+            const width = window.getComputedStyle(this.element).width;
+            const height = window.getComputedStyle(this.element).height;
+            const iframe = this.element.querySelector("iframe");
+            iframe.style.height = `${parseInt(height) * 0.9}px`;
+            iframe.style.width = width;
           },
           beforeDestroy() {
             let dialog = new Dialog({
@@ -108,10 +93,6 @@ export default class siyuanPluginSvgBlockEdit extends Plugin {
               const svgEditor = iframe.contentWindow.svgEditor;
               const { svgCanvas } = svgEditor;
               const svgcontent = svgCanvas.svgCanvasToString();
-              //console.log(svgcontent);
-              /*const svgcontent =
-                iframe.contentDocument.getElementById("svgcontent");*/
-              //console.log(iframe);
               new SavePanel({
                 target: dialog.element.querySelector("#savePanel"),
                 props: {
@@ -127,7 +108,6 @@ export default class siyuanPluginSvgBlockEdit extends Plugin {
             //console.log("before destroy tab:");
           },
           destroy() {
-            resizeObserver.disconnect();
             //console.log("destroy tab:");
           },
         }),

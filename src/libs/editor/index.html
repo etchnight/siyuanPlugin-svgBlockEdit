@@ -54,7 +54,7 @@
     }
   } catch (error) { /* empty fn */ }
   //console.log(svgEditor)
-  await loadSvg()
+  loadSvg()
   async function loadSvg() {
     let doc = iframe.parentElement.ownerDocument
     let ele = doc.querySelector(`div[data-node-id='${blockId}'][data-subtype='block']`)
@@ -69,15 +69,14 @@
     if (!svgEle) {
       return
     }
-    svgEle.id=''
     const svgHtml = svgEle.outerHTML
-    //console.log(svgHtml)
     const { svgCanvas } = svgEditor
     await svgCanvas.clear()
     await svgEditor.loadSvgString(svgHtml)
     //svgEditor.updateCanvas()
   }
 
+  //resize
   const resizeObserver = new ResizeObserver((entries) => {
     for (let entry of entries) {
       const height = entry.contentRect.height;
